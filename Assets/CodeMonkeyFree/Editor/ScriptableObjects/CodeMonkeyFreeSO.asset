@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d777d270cee3a5c419cb21a828556f1a, type: 3}
+  m_Name: CodeMonkeyFreeSO
+  m_EditorClassIdentifier: 
+  currentVersion: 1.01
+  subtype: kitchenchaos
+  lastShownTimestamp: 1781249612
+  lastUpdateResponse:
+    version: 1.01
+    versionUrl: https://unitycodemonkey.com
+  checkedLastUpdateTimestamp: 1781249612
+  lastQOTDResponse:
+    questionId: 311
+    questionText: Which namespace do we need to use File.WriteAllText()?
+    answerA: using System;
+    answerB: using UnityEngine;
+    answerC: using System.IO;
+    answerD: using UnityEngine.UI;
+    answerE: 
+  lastQotdTimestamp: 1781249612
+  lastDynamicHeaderResponse:
+    topImageUrl: https://codemonkeyexternal.blob.core.windows.net/external/Misc/humbleJun26Synty.png
+    topText: Synty is BACK with a HumbleBundle 95% OFF! Don't miss this one!
+    topLink: humblebundle
+    bottomText: My 10+ Years of C# Knowledge in 1 Course!
+    bottomLink: csharpcourse
+  lastDynamicHeaderTimestamp: 1781249612
+  websiteLatestMessage:
+    text: <a href="https://cmonkey.co/freecourses">Check out all my FREE courses!
+      Click here!</a>
+  websiteLatestMessageTimestamp: 1781249612
+  websiteLatestVideos:
+    videos:
+    - youTubeId: m0s3IUrWzVQ
+      title: How to Write High Quality Code that doesn't fall apart.
+    - youTubeId: NZfIxeK463o
+      title: Steam update just DESTROYED indie devs?!
+    - youTubeId: AuT-paQSAHU
+      title: NEW HOTTEST Steam Game Genres Revealed!
+    - youTubeId: 7s7rmNeo8Wo
+      title: Getting Started with Unity AI!
+  websiteLatestVideosTimestamp: 1781249612
