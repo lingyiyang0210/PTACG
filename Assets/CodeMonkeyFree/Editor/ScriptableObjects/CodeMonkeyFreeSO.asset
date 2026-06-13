@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentVersion: 1.01
   subtype: kitchenchaos
-  lastShownTimestamp: 1781249612
+  lastShownTimestamp: 1781348644
   lastUpdateResponse:
     version: 1.01
     versionUrl: https://unitycodemonkey.com
-  checkedLastUpdateTimestamp: 1781249612
+  checkedLastUpdateTimestamp: 1781348644
   lastQOTDResponse:
     questionId: 311
     questionText: Which namespace do we need to use File.WriteAllText()?
@@ -27,26 +27,26 @@ MonoBehaviour:
     answerC: using System.IO;
     answerD: using UnityEngine.UI;
     answerE: 
-  lastQotdTimestamp: 1781249612
+  lastQotdTimestamp: 1781348644
   lastDynamicHeaderResponse:
     topImageUrl: https://codemonkeyexternal.blob.core.windows.net/external/Misc/humbleJun26Synty.png
     topText: Synty is BACK with a HumbleBundle 95% OFF! Don't miss this one!
     topLink: humblebundle
     bottomText: My 10+ Years of C# Knowledge in 1 Course!
     bottomLink: csharpcourse
-  lastDynamicHeaderTimestamp: 1781249612
+  lastDynamicHeaderTimestamp: 1781348644
   websiteLatestMessage:
     text: <a href="https://cmonkey.co/freecourses">Check out all my FREE courses!
       Click here!</a>
-  websiteLatestMessageTimestamp: 1781249612
+  websiteLatestMessageTimestamp: 1781348644
   websiteLatestVideos:
     videos:
+    - youTubeId: NYBe2xkcscA
+      title: Unity Summer Sale is live up to 90% OFF!
     - youTubeId: m0s3IUrWzVQ
       title: How to Write High Quality Code that doesn't fall apart.
     - youTubeId: NZfIxeK463o
       title: Steam update just DESTROYED indie devs?!
     - youTubeId: AuT-paQSAHU
       title: NEW HOTTEST Steam Game Genres Revealed!
-    - youTubeId: 7s7rmNeo8Wo
-      title: Getting Started with Unity AI!
-  websiteLatestVideosTimestamp: 1781249612
+  websiteLatestVideosTimestamp: 1781348644
