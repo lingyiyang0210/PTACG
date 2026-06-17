@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static CuttingCounter;
 
 public class StoveCounter : BaseCounter, IHasProgress
 {
@@ -11,9 +12,9 @@ public class StoveCounter : BaseCounter, IHasProgress
     {
         public State state;
     }
-    
+
     public enum State
-    { 
+    {
         Idle,
         Frying,
         Fried,
@@ -52,7 +53,7 @@ public class StoveCounter : BaseCounter, IHasProgress
 
                     if (fryingTimer > fryingRecipeSO.fryingTimerMax)
                     {
-                        //fried
+                        // Fried
                         GetKitchenObject().DestroySelf();
 
                         KitchenObject.SpawnKitchenObject(fryingRecipeSO.output, this);
@@ -77,7 +78,7 @@ public class StoveCounter : BaseCounter, IHasProgress
 
                     if (burningTimer > burningRecipeSO.burningTimerMax)
                     {
-                        //fried
+                        // Fried
                         GetKitchenObject().DestroySelf();
 
                         KitchenObject.SpawnKitchenObject(burningRecipeSO.output, this);
@@ -105,13 +106,13 @@ public class StoveCounter : BaseCounter, IHasProgress
     {
         if (!HasKitchenObject())
         {
-            //there is no KithcenObject here
+            // There is no KitchenObject here
             if (player.HasKitchenObject())
             {
-                //player is carrying something
+                // Player is carrying something
                 if (HasRecipeWithInput(player.GetKitchenObject().GetKitchenObjectSO()))
                 {
-                    //player carrying something that can be fried
+                    // Player carrying something that can be Fried
                     player.GetKitchenObject().SetKitchenObjectParent(this);
 
                     fryingRecipeSO = GetFryingRecipeSOWithInput(GetKitchenObject().GetKitchenObjectSO());
@@ -125,25 +126,25 @@ public class StoveCounter : BaseCounter, IHasProgress
                     });
 
                     OnProgressChanged?.Invoke(this, new IHasProgress.OnProgressChangedEventArgs
-                    { 
+                    {
                         progressNormalized = fryingTimer / fryingRecipeSO.fryingTimerMax
                     });
                 }
             }
             else
             {
-                //player not carrying anything
+                // Player not carrying anything
             }
         }
         else
         {
-            //there is a KitchenObject here
+            // There is a KitchenObject here
             if (player.HasKitchenObject())
             {
-                //player is carrying something
+                // Player is carrying something
                 if (player.GetKitchenObject().TryGetPlate(out PlateKitchenObject plateKitchenObject))
                 {
-                    //player is holding a plate
+                    // Player is holding a Plate
                     if (plateKitchenObject.TryAddIngredient(GetKitchenObject().GetKitchenObjectSO()))
                     {
                         GetKitchenObject().DestroySelf();
@@ -164,7 +165,7 @@ public class StoveCounter : BaseCounter, IHasProgress
             }
             else
             {
-                //player is not carrying anything
+                // Player is not carrying anything
                 GetKitchenObject().SetKitchenObjectParent(player);
 
                 state = State.Idle;
@@ -223,5 +224,10 @@ public class StoveCounter : BaseCounter, IHasProgress
             }
         }
         return null;
+    }
+
+    public bool IsFried()
+    {
+        return state == State.Fried;
     }
 }
