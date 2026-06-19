@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour, IKitchenObjectParent
 {
-    public static Player Instance{ get; private set; }
+    public static Player Instance { get; private set; }
 
     public event EventHandler OnPickedSomething;
     public event EventHandler<OnSelectedCounterChangedEventArgs> OnSelectedCounterChanged;
@@ -30,7 +30,6 @@ public class Player : MonoBehaviour, IKitchenObjectParent
         {
             Debug.LogError("There is more than one Player instance");
         }
-
         Instance = this;
     }
 
@@ -40,13 +39,13 @@ public class Player : MonoBehaviour, IKitchenObjectParent
         gameInput.OnInteractAlternateAction += GameInput_OnInteractAlternateAction;
     }
 
-    private void GameInput_OnInteractAlternateAction(object sender, System.EventArgs e)
+    private void GameInput_OnInteractAlternateAction(object sender, EventArgs e)
     {
         if (!KitchenGameManager.Instance.IsGamePlaying()) return;
 
         if (selectedCounter != null)
         {
-            selectedCounter.InteractAlternate(this); 
+            selectedCounter.InteractAlternate(this);
         }
     }
 
@@ -87,7 +86,7 @@ public class Player : MonoBehaviour, IKitchenObjectParent
         {
             if (raycastHit.transform.TryGetComponent(out BaseCounter baseCounter))
             {
-                //has clearCounter 
+                // Has ClearCounter
                 if (baseCounter != selectedCounter)
                 {
                     SetSelectedCounter(baseCounter);
@@ -117,33 +116,33 @@ public class Player : MonoBehaviour, IKitchenObjectParent
 
         if (!canMove)
         {
-            //cannot move towards moveDir
+            // Cannot move towards moveDir
 
-            //attempt only X movement
+            // Attempt only X movement
             Vector3 moveDirX = new Vector3(moveDir.x, 0, 0).normalized;
-            canMove = moveDir.x != 0 && !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirX, moveDistance);
+            canMove = (moveDir.x < -.5f || moveDir.x > +.5f) && !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirX, moveDistance);
 
             if (canMove)
             {
-                //can move only on the X
+                // Can move only on the X
                 moveDir = moveDirX;
             }
             else
             {
-                //cannot move only on the X
+                // Cannot move only on the X
 
-                //attempt only Z movement
+                // Attempt only Z movement
                 Vector3 moveDirZ = new Vector3(0, 0, moveDir.z).normalized;
-                canMove = moveDir.z != 0 && !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirZ, moveDistance);
+                canMove = (moveDir.z < -.5f || moveDir.z > +.5f) && !Physics.CapsuleCast(transform.position, transform.position + Vector3.up * playerHeight, playerRadius, moveDirZ, moveDistance);
 
                 if (canMove)
                 {
-                    //can move only on the Z
+                    // Can move only on the Z
                     moveDir = moveDirZ;
                 }
                 else
                 {
-                    //cannot move in any direction
+                    // Cannot move in any direction
                 }
             }
         }

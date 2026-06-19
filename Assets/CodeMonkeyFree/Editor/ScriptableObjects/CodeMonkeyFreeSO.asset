@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentVersion: 1.01
   subtype: kitchenchaos
-  lastShownTimestamp: 1781779615
+  lastShownTimestamp: 1781866098
   lastUpdateResponse:
     version: 1.01
     versionUrl: https://unitycodemonkey.com
-  checkedLastUpdateTimestamp: 1781779615
+  checkedLastUpdateTimestamp: 1781866098
   lastQOTDResponse:
     questionId: 313
     questionText: What will happen on January 19, 2038 at 03:14:07?
@@ -27,7 +27,7 @@ MonoBehaviour:
     answerC: Half-Life 3 release date
     answerD: 
     answerE: 
-  lastQotdTimestamp: 1781779615
+  lastQotdTimestamp: 1781866098
   lastDynamicHeaderResponse:
     topImageUrl: https://codemonkeyexternal.blob.core.windows.net/external/Misc/summer2025CodeMonkeyBundle.png
     topText: Get 80% OFF on ALL my Courses and Games!!!
@@ -35,11 +35,11 @@ MonoBehaviour:
     bottomText: DONT MISS the latest important trends, sign up for my FREE Weekly
       Newsletter!
     bottomLink: gamedevreport
-  lastDynamicHeaderTimestamp: 1781779615
+  lastDynamicHeaderTimestamp: 1781866098
   websiteLatestMessage:
     text: <a href="https://cmonkey.co/freecourses">Check out all my FREE courses!
       Click here!</a>
-  websiteLatestMessageTimestamp: 1781779615
+  websiteLatestMessageTimestamp: 1781866098
   websiteLatestVideos:
     videos:
     - youTubeId: tEmH8kAvGgk
@@ -50,4 +50,4 @@ MonoBehaviour:
       title: Unity Summer Sale is live up to 90% OFF!
     - youTubeId: m0s3IUrWzVQ
       title: How to Write High Quality Code that doesn't fall apart.
-  websiteLatestVideosTimestamp: 1781779615
+  websiteLatestVideosTimestamp: 1781866098
