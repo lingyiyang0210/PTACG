@@ -22,7 +22,7 @@ public class PlatesCounter : BaseCounter
         {
             spawnPlateTimer = 0f;
 
-            if (platesSpawnedAmount < platesSpawnedAmountMax)
+            if (KitchenGameManager.Instance.IsGamePlaying() && platesSpawnedAmount < platesSpawnedAmountMax)
             {
                 platesSpawnedAmount++;
 
@@ -35,10 +35,10 @@ public class PlatesCounter : BaseCounter
     {
         if (!player.HasKitchenObject())
         {
-            //player is empty handed
+            // Player is empty handed
             if (platesSpawnedAmount > 0)
             {
-                //there's at least one plate here
+                // There's at least one plate here
                 platesSpawnedAmount--;
 
                 KitchenObject.SpawnKitchenObject(plateKitchenObjectSO, player);
