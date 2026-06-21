@@ -4,55 +4,59 @@ using UnityEngine;
 
 public class ClearCounter : BaseCounter
 {
+
+
     [SerializeField] private KitchenObjectSO kitchenObjectSO;
+
 
     public override void Interact(Player player)
     {
         if (!HasKitchenObject())
         {
-            //there is no KithcenObject here
+            // There is no KitchenObject here
             if (player.HasKitchenObject())
             {
-                //player is carrying something
+                // Player is carrying something
                 player.GetKitchenObject().SetKitchenObjectParent(this);
             }
             else
             {
-                //player not carrying anything
+                // Player not carrying anything
             }
         }
         else
         {
-            //there is a KitchenObject here
+            // There is a KitchenObject here
             if (player.HasKitchenObject())
             {
-                //player is carrying something
+                // Player is carrying something
                 if (player.GetKitchenObject().TryGetPlate(out PlateKitchenObject plateKitchenObject))
                 {
-                    //player is holding a plate
+                    // Player is holding a Plate
                     if (plateKitchenObject.TryAddIngredient(GetKitchenObject().GetKitchenObjectSO()))
                     {
-                        GetKitchenObject().DestroySelf();
+                        KitchenObject.DestroyKitchenObject(GetKitchenObject());
                     }
                 }
                 else
                 {
-                    //player is not carrying Plate but something else
+                    // Player is not carrying Plate but something else
                     if (GetKitchenObject().TryGetPlate(out plateKitchenObject))
                     {
-                        //counter is holding a Plate
+                        // Counter is holding a Plate
                         if (plateKitchenObject.TryAddIngredient(player.GetKitchenObject().GetKitchenObjectSO()))
                         {
-                            player.GetKitchenObject().DestroySelf();
+                            KitchenObject.DestroyKitchenObject(player.GetKitchenObject());
                         }
                     }
                 }
             }
             else
             {
-                //player is not carrying anything
+                // Player is not carrying anything
                 GetKitchenObject().SetKitchenObjectParent(player);
             }
         }
     }
+
 }

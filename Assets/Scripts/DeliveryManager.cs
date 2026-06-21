@@ -44,13 +44,13 @@ public class DeliveryManager : NetworkBehaviour
             {
                 int waitingRecipeSOIndex = UnityEngine.Random.Range(0, recipeListSO.recipeSOList.Count);
 
-                SpawnNewWaitingRecipeClientRPC(waitingRecipeSOIndex);
+                SpawnNewWaitingRecipeClientRpc(waitingRecipeSOIndex);
             }
         }
     }
 
     [ClientRpc]
-    private void SpawnNewWaitingRecipeClientRPC(int waitingRecipeSOIndex)
+    private void SpawnNewWaitingRecipeClientRpc(int waitingRecipeSOIndex)
     {
         RecipeSO waitingRecipeSO = recipeListSO.recipeSOList[waitingRecipeSOIndex];
 
@@ -93,7 +93,7 @@ public class DeliveryManager : NetworkBehaviour
                 if (plateContentsMatchesRecipe)
                 {
                     // Player delivered the correct recipe!
-                    DeliverCorrectRecipeServerRPC(i);
+                    DeliverCorrectRecipeServerRpc(i);
                     return;
                 }
             }
@@ -101,29 +101,29 @@ public class DeliveryManager : NetworkBehaviour
 
         // No matches found!
         // Player did not deliver a correct recipe
-        DeliverIncorrectRecipeServerRPC();
+        DeliverIncorrectRecipeServerRpc();
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void DeliverIncorrectRecipeServerRPC()
+    private void DeliverIncorrectRecipeServerRpc()
     {
-        DeliverIncorrectRecipeClientRPC();
+        DeliverIncorrectRecipeClientRpc();
     }
 
     [ClientRpc]
-    private void DeliverIncorrectRecipeClientRPC()
+    private void DeliverIncorrectRecipeClientRpc()
     {
         OnRecipeFailed?.Invoke(this, EventArgs.Empty);
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void DeliverCorrectRecipeServerRPC(int waitingRecipeSOListIndex)
+    private void DeliverCorrectRecipeServerRpc(int waitingRecipeSOListIndex)
     {
-        DeliverCorrectRecipeClientRPC(waitingRecipeSOListIndex);
+        DeliverCorrectRecipeClientRpc(waitingRecipeSOListIndex);
     }
 
     [ClientRpc]
-    private void DeliverCorrectRecipeClientRPC(int waitingRecipeSOListIndex)
+    private void DeliverCorrectRecipeClientRpc(int waitingRecipeSOListIndex)
     {
         successfulRecipesAmount++;
 

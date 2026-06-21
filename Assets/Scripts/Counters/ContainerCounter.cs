@@ -17,19 +17,19 @@ public class ContainerCounter : BaseCounter
             //player is not carrying anything
             KitchenObject.SpawnKitchenObject(kitchenObjectSO, player);
 
-            InteractLogicServerRPC();
+            InteractLogicServerRpc();
         }
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void InteractLogicServerRPC()
+    private void InteractLogicServerRpc()
     {
-        InteractLogicClientRPC();
+        InteractLogicClientRpc();
     }
 
 
     [ClientRpc]
-    private void InteractLogicClientRPC()
+    private void InteractLogicClientRpc()
     {
         OnPlayerGrabbedObject?.Invoke(this, EventArgs.Empty);
     }

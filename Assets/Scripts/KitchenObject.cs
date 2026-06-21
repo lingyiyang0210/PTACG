@@ -23,17 +23,17 @@ public class KitchenObject : NetworkBehaviour
 
     public void SetKitchenObjectParent(IKitchenObjectParent kitchenObjectParent)
     {
-        SetKitchenObjectParentServerRPC(kitchenObjectParent.GetNetworkObject());
+        SetKitchenObjectParentServerRpc(kitchenObjectParent.GetNetworkObject());
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void SetKitchenObjectParentServerRPC(NetworkObjectReference kitchenObjectParentNetworkObjectReference)
+    private void SetKitchenObjectParentServerRpc(NetworkObjectReference kitchenObjectParentNetworkObjectReference)
     {
-        SetKitchenObjectParentClientRPC(kitchenObjectParentNetworkObjectReference);
+        SetKitchenObjectParentClientRpc(kitchenObjectParentNetworkObjectReference);
     }
 
     [ClientRpc]
-    private void SetKitchenObjectParentClientRPC(NetworkObjectReference kitchenObjectParentNetworkObjectReference)
+    private void SetKitchenObjectParentClientRpc(NetworkObjectReference kitchenObjectParentNetworkObjectReference)
     {
         kitchenObjectParentNetworkObjectReference.TryGet(out NetworkObject kitchenObjectParentNetworkObject);
         IKitchenObjectParent kitchenObjectParent = kitchenObjectParentNetworkObject.GetComponent<IKitchenObjectParent>();
