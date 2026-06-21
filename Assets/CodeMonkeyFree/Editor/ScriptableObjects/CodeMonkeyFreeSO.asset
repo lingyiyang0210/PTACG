@@ -14,20 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentVersion: 1.01
   subtype: kitchenchaos
-  lastShownTimestamp: 1781866098
+  lastShownTimestamp: 1782045638
   lastUpdateResponse:
     version: 1.01
     versionUrl: https://unitycodemonkey.com
-  checkedLastUpdateTimestamp: 1781944820
+  checkedLastUpdateTimestamp: 1782045638
   lastQOTDResponse:
-    questionId: 313
-    questionText: What will happen on January 19, 2038 at 03:14:07?
-    answerA: Armagedon
-    answerB: End of Unix Time
-    answerC: Half-Life 3 release date
+    questionId: 314
+    questionText: The Profiler is useful for...
+    answerA: Balancing difficulty
+    answerB: Level Design
+    answerC: Indentifying performance bottlenecks
     answerD: 
     answerE: 
-  lastQotdTimestamp: 1781944820
+  lastQotdTimestamp: 1782045638
   lastDynamicHeaderResponse:
     topImageUrl: https://codemonkeyexternal.blob.core.windows.net/external/Misc/summer2025CodeMonkeyBundle.png
     topText: Get 80% OFF on ALL my Courses and Games!!!
@@ -35,11 +35,11 @@ MonoBehaviour:
     bottomText: DONT MISS the latest important trends, sign up for my FREE Weekly
       Newsletter!
     bottomLink: gamedevreport
-  lastDynamicHeaderTimestamp: 1781944820
+  lastDynamicHeaderTimestamp: 1782045638
   websiteLatestMessage:
     text: <a href="https://cmonkey.co/freecourses">Check out all my FREE courses!
       Click here!</a>
-  websiteLatestMessageTimestamp: 1781944820
+  websiteLatestMessageTimestamp: 1782045638
   websiteLatestVideos:
     videos:
     - youTubeId: l8haAb6CPCI
@@ -50,4 +50,4 @@ MonoBehaviour:
       title: TOP 10 NEW Games, Made with Unity! (MAY 2026)
     - youTubeId: NYBe2xkcscA
       title: Unity Summer Sale is live up to 90% OFF!
-  websiteLatestVideosTimestamp: 1781944820
+  websiteLatestVideosTimestamp: 1782045638
