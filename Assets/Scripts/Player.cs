@@ -6,21 +6,15 @@ using UnityEngine;
 
 public class Player : NetworkBehaviour, IKitchenObjectParent
 {
-
-
     public static event EventHandler OnAnyPlayerSpawned;
     public static event EventHandler OnAnyPickedSomething;
-
 
     public static void ResetStaticData()
     {
         OnAnyPlayerSpawned = null;
     }
 
-
     public static Player LocalInstance { get; private set; }
-
-
 
     public event EventHandler OnPickedSomething;
     public event EventHandler<OnSelectedCounterChangedEventArgs> OnSelectedCounterChanged;
@@ -29,19 +23,16 @@ public class Player : NetworkBehaviour, IKitchenObjectParent
         public BaseCounter selectedCounter;
     }
 
-
     [SerializeField] private float moveSpeed = 7f;
     [SerializeField] private LayerMask countersLayerMask;
     [SerializeField] private LayerMask collisionsLayerMask;
     [SerializeField] private Transform kitchenObjectHoldPoint;
     [SerializeField] private List<Vector3> spawnPositionList;
 
-
     private bool isWalking;
     private Vector3 lastInteractDir;
     private BaseCounter selectedCounter;
     private KitchenObject kitchenObject;
-
 
     private void Start()
     {
@@ -59,6 +50,19 @@ public class Player : NetworkBehaviour, IKitchenObjectParent
         transform.position = spawnPositionList[(int)OwnerClientId];
 
         OnAnyPlayerSpawned?.Invoke(this, EventArgs.Empty);
+
+        if (IsServer)
+        {
+            NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallback;
+        }
+    }
+
+    private void NetworkManager_OnClientDisconnectCallback(ulong clientId)
+    {
+        if (clientId == OwnerClientId && HasKitchenObject())
+        {
+            KitchenObject.DestroyKitchenObject(GetKitchenObject());
+        }
     }
 
     private void GameInput_OnInteractAlternateAction(object sender, EventArgs e)
@@ -113,7 +117,6 @@ public class Player : NetworkBehaviour, IKitchenObjectParent
         {
             if (raycastHit.transform.TryGetComponent(out BaseCounter baseCounter))
             {
-                // Has ClearCounter
                 if (baseCounter != selectedCounter)
                 {
                     SetSelectedCounter(baseCounter);
@@ -122,7 +125,6 @@ public class Player : NetworkBehaviour, IKitchenObjectParent
             else
             {
                 SetSelectedCounter(null);
-
             }
         }
         else
@@ -139,22 +141,22 @@ public class Player : NetworkBehaviour, IKitchenObjectParent
 
         float moveDistance = moveSpeed * Time.deltaTime;
         float playerRadius = .7f;
-        float playerHeight = 2f;
-        bool canMove = !Physics.BoxCast(
-            transform.position,
-            Vector3.one * playerRadius,
-            moveDir,
-            Quaternion.identity,
-            moveDistance,
-            collisionsLayerMask
-        );
+
+        bool canMove =
+            !Physics.BoxCast(
+                transform.position,
+                Vector3.one * playerRadius,
+                moveDir,
+                Quaternion.identity,
+                moveDistance,
+                collisionsLayerMask
+            );
 
         if (!canMove)
         {
-            // Cannot move towards moveDir
 
-            // Attempt only X movement
             Vector3 moveDirX = new Vector3(moveDir.x, 0, 0).normalized;
+
             canMove =
                 (moveDir.x < -.5f || moveDir.x > +.5f) &&
                 !Physics.BoxCast(
@@ -173,7 +175,6 @@ public class Player : NetworkBehaviour, IKitchenObjectParent
             else
             {
 
-                // Attempt only Z movement
                 Vector3 moveDirZ = new Vector3(0, 0, moveDir.z).normalized;
                 canMove =
                     (moveDir.z < -.5f || moveDir.z > +.5f) &&
@@ -257,5 +258,4 @@ public class Player : NetworkBehaviour, IKitchenObjectParent
     {
         return NetworkObject;
     }
-
 }

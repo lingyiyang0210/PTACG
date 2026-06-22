@@ -7,13 +7,10 @@ using UnityEngine;
 public class PlatesCounter : BaseCounter
 {
 
-
     public event EventHandler OnPlateSpawned;
     public event EventHandler OnPlateRemoved;
 
-
     [SerializeField] private KitchenObjectSO plateKitchenObjectSO;
-
 
     private float spawnPlateTimer;
     private float spawnPlateTimerMax = 4f;
@@ -82,5 +79,4 @@ public class PlatesCounter : BaseCounter
 
         OnPlateRemoved?.Invoke(this, EventArgs.Empty);
     }
-
 }
