@@ -8,15 +8,15 @@ using UnityEngine.UI;
 public class GameOverUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI recipesDeliveredText;
-    //[SerializeField] private Button playAgainButton;
+    [SerializeField] private Button playAgainButton;
 
-    /*private void Awake()
+    private void Awake()
     {
         playAgainButton.onClick.AddListener(() => {
             NetworkManager.Singleton.Shutdown();
             Loader.Load(Loader.Scene.MainMenuScene);
         });
-    }*/
+    }
 
     private void Start()
     {
@@ -30,7 +30,7 @@ public class GameOverUI : MonoBehaviour
     {
         if (KitchenGameManager.Instance.IsGameOver())
         {
-            //Show();
+            Show();
 
             recipesDeliveredText.text =
                 DeliveryManager.Instance
@@ -42,11 +42,12 @@ public class GameOverUI : MonoBehaviour
             Hide();
         }
     }
-    /*private void Show()
+
+    private void Show()
     {
         gameObject.SetActive(true);
         playAgainButton.Select();
-    }*/
+    }
 
     private void Hide()
     {
