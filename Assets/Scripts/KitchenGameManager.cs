@@ -35,6 +35,7 @@ public class KitchenGameManager : NetworkBehaviour
     private NetworkVariable<float> gamePlayingTimer = new NetworkVariable<float>(0f);
 
     [SerializeField] private float gamePlayingTimerMax = 90f;
+    [SerializeField] private bool isInfiniteTime = false;
 
     private bool isLocalGamePaused = false;
 
@@ -172,11 +173,18 @@ public class KitchenGameManager : NetworkBehaviour
 
             case State.GamePlaying:
 
-                gamePlayingTimer.Value -= Time.deltaTime;
-
-                if (gamePlayingTimer.Value < 0f)
+                if (!isInfiniteTime)
                 {
-                    state.Value = State.GameOver;
+                    gamePlayingTimer.Value -= Time.deltaTime;
+
+                    if (gamePlayingTimer.Value < 0f)
+                    {
+                        state.Value = State.GameOver;
+                    }
+                }
+                else
+                {
+                    gamePlayingTimer.Value = gamePlayingTimerMax;
                 }
                 break;
 

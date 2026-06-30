@@ -17,12 +17,10 @@ public class LobbyCreateUI : MonoBehaviour
         {
             KitchenGameLobby.Instance.CreateLobby(lobbyNameInputField.text, false);
         });
-
-        createPrivateButton.onClick.AddListener(() =>
+        createPrivateButton.onClick.AddListener(() => 
         {
             KitchenGameLobby.Instance.CreateLobby(lobbyNameInputField.text, true);
         });
-
         closeButton.onClick.AddListener(() =>
         {
             Hide();
@@ -37,6 +35,8 @@ public class LobbyCreateUI : MonoBehaviour
     public void Show()
     {
         gameObject.SetActive(true);
+
+        createPublicButton.Select();
     }
 
     private void Hide()
