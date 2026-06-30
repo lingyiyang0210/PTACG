@@ -21,7 +21,7 @@ public class LobbyUI : MonoBehaviour
     {
         mainMenuButton.onClick.AddListener(() =>
         {
-            GameLobby.Instance.LeaveLobby();
+            KitchenGameLobby.Instance.LeaveLobby();
             Loader.Load(Loader.Scene.MainMenuScene);
         });
 
@@ -32,12 +32,12 @@ public class LobbyUI : MonoBehaviour
 
         quickJoinButton.onClick.AddListener(() =>
         {
-            GameLobby.Instance.QuickJoin();
+            KitchenGameLobby.Instance.QuickJoin();
         });
 
         joinCodeButton.onClick.AddListener(() =>
         {
-            GameLobby.Instance.JoinWithCode(joinCodeInputField.text);
+            KitchenGameLobby.Instance.JoinWithCode(joinCodeInputField.text);
         });
 
         lobbyTemplate.gameObject.SetActive(false);
@@ -50,11 +50,11 @@ public class LobbyUI : MonoBehaviour
             KitchenGameMultiplayer.Instance.SetPlayerName(newText);
         });
 
-        GameLobby.Instance.OnLobbyListChanged += GameLobby_OnLobbyListChanged;
+        KitchenGameLobby.Instance.OnLobbyListChanged += KitchenGameLobby_OnLobbyListChanged;
         UpdateLobbyList(new List<Lobby>());
     }
 
-    private void GameLobby_OnLobbyListChanged(object sender, GameLobby.OnLobbyListChangedEventArgs e)
+    private void KitchenGameLobby_OnLobbyListChanged(object sender, KitchenGameLobby.OnLobbyListChangedEventArgs e)
     {
         UpdateLobbyList(e.lobbyList);
     }
@@ -77,6 +77,6 @@ public class LobbyUI : MonoBehaviour
 
     private void OnDestroy()
     {
-        GameLobby.Instance.OnLobbyListChanged -= GameLobby_OnLobbyListChanged;
+        KitchenGameLobby.Instance.OnLobbyListChanged -= KitchenGameLobby_OnLobbyListChanged;
     }
 }

@@ -17,7 +17,7 @@ public class CharacterSelectUI : MonoBehaviour
     {
         mainMenuButton.onClick.AddListener(() => 
         {
-            GameLobby.Instance.LeaveLobby();
+            KitchenGameLobby.Instance.LeaveLobby();
             NetworkManager.Singleton.Shutdown();
             Loader.Load(Loader.Scene.MainMenuScene);
         });
@@ -30,7 +30,7 @@ public class CharacterSelectUI : MonoBehaviour
 
     private void Start()
     {
-        Lobby lobby = GameLobby.Instance.GetLobby();
+        Lobby lobby = KitchenGameLobby.Instance.GetLobby();
 
         lobbyNameText.text = "Lobby Name: " + lobby.Name;
         lobbyCodeText.text = "Lobby Code: " + lobby.LobbyCode;

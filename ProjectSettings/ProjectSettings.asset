@@ -890,11 +890,11 @@ PlayerSettings:
   apiCompatibilityLevel: 6
   activeInputHandler: 2
   windowsGamepadBackendHint: 0
-  cloudProjectId: 506d4f43-3010-4048-aed6-6ccbd107c3e0
+  cloudProjectId: 0152263f-afb2-4c18-a2c9-7b24c53b9c51
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: PTACG
-  organizationId: kenwong331
+  projectName: PTACG (3)
+  organizationId: ling_yiyang
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}
