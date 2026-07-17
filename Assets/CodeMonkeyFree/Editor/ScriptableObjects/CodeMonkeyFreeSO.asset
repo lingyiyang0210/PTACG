@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentVersion: 1.01
   subtype: kitchenchaos
-  lastShownTimestamp: 1784177601
+  lastShownTimestamp: 1784282924
   lastUpdateResponse:
     version: 1.01
     versionUrl: https://unitycodemonkey.com
-  checkedLastUpdateTimestamp: 1784177601
+  checkedLastUpdateTimestamp: 1784282924
   lastQOTDResponse:
     questionId: 322
     questionText: What is the purpose of a namespace?
@@ -27,7 +27,7 @@ MonoBehaviour:
     answerC: Keep your code organized
     answerD: 
     answerE: 
-  lastQotdTimestamp: 1784177601
+  lastQotdTimestamp: 1784282924
   lastDynamicHeaderResponse:
     topImageUrl: https://codemonkeyexternal.blob.core.windows.net/external/Misc/summer2025CodeMonkeyBundle.png
     topText: Get 80% OFF on ALL my Courses and Games!!!
@@ -35,11 +35,11 @@ MonoBehaviour:
     bottomText: DONT MISS the latest important trends, sign up for my FREE Weekly
       Newsletter!
     bottomLink: gamedevreport
-  lastDynamicHeaderTimestamp: 1784177601
+  lastDynamicHeaderTimestamp: 1784282924
   websiteLatestMessage:
     text: <a href="https://cmonkey.co/freecourses">Check out all my FREE courses!
       Click here!</a>
-  websiteLatestMessageTimestamp: 1784177601
+  websiteLatestMessageTimestamp: 1784282924
   websiteLatestVideos:
     videos:
     - youTubeId: IQlMciGDMTY
@@ -50,4 +50,4 @@ MonoBehaviour:
       title: Steam Marketing EXPERT on how to find SUCCESS in 2026!
     - youTubeId: ngQCio7raFY
       title: Apparently Indie devs are NOT dead?
-  websiteLatestVideosTimestamp: 1784177601
+  websiteLatestVideosTimestamp: 1784282924

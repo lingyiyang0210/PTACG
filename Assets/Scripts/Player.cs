@@ -51,13 +51,15 @@ public class Player : NetworkBehaviour, IKitchenObjectParent
             LocalInstance = this;
         }
 
-        transform.position = spawnPositionList[KitchenGameMultiplayer.Instance.GetPlayerDataIndexFromClientId(OwnerClientId)];
+        int playerIndex = KitchenGameMultiplayer.Instance.GetPlayerDataIndexFromClientId(OwnerClientId);
 
-        OnAnyPlayerSpawned?.Invoke(this, EventArgs.Empty);
-
-        if (IsServer)
+        if (LevelSpawnManager.Instance != null)
         {
-            NetworkManager.Singleton.OnClientDisconnectCallback += NetworkManager_OnClientDisconnectCallback;
+            transform.position = LevelSpawnManager.Instance.GetSpawnPoint(playerIndex).position;
+        }
+        else
+        {
+            transform.position = new Vector3(playerIndex, 0, 0);
         }
     }
 
