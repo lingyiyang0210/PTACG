@@ -201,7 +201,7 @@ public class KitchenGameLobby : MonoBehaviour
             unityTransport.SetRelayServerData(
                 new RelayServerData(
                     allocation,
-                    "dtls"
+                    "wss"
                 )
             );
 
@@ -397,7 +397,7 @@ public class KitchenGameLobby : MonoBehaviour
         unityTransport.SetRelayServerData(
             new RelayServerData(
                 joinAllocation,
-                "dtls"
+                "wss"
             )
         );
 
