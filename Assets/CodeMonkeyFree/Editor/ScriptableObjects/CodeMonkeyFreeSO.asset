@@ -14,40 +14,42 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentVersion: 1.01
   subtype: kitchenchaos
-  lastShownTimestamp: 1784282924
+  lastShownTimestamp: 1786797529
   lastUpdateResponse:
     version: 1.01
     versionUrl: https://unitycodemonkey.com
-  checkedLastUpdateTimestamp: 1784282924
+  checkedLastUpdateTimestamp: 1786797529
   lastQOTDResponse:
-    questionId: 322
-    questionText: What is the purpose of a namespace?
-    answerA: To confuse you
-    answerB: Better performance
-    answerC: Keep your code organized
+    questionId: 332
+    questionText: Which of these are affected when you modify Time.timeScale?
+    answerA: Time.deltaTime, Time.realtimeSinceStartup, Time.unscaledDeltaTime, Time.timeSinceLevelLoad,
+      Time.fixedTime
+    answerB: Time.deltaTime, Time.realtimeSinceStartup, Time.timeSinceLevelLoad,
+      Time.fixedTime
+    answerC: Time.deltaTime, Time.timeSinceLevelLoad, Time.fixedTime
     answerD: 
     answerE: 
-  lastQotdTimestamp: 1784282924
+  lastQotdTimestamp: 1786797529
   lastDynamicHeaderResponse:
-    topImageUrl: https://codemonkeyexternal.blob.core.windows.net/external/Misc/summer2025CodeMonkeyBundle.png
-    topText: Get 80% OFF on ALL my Courses and Games!!!
+    topImageUrl: https://codemonkeyexternal.blob.core.windows.net/external/Misc/summer2025CodeMonkeyBundle_EndsSoon.png
+    topText: Get 80% OFF on ALL my Courses and Games!!! (ENDS AUGUST)
     topLink: summerbundle
     bottomText: DONT MISS the latest important trends, sign up for my FREE Weekly
       Newsletter!
     bottomLink: gamedevreport
-  lastDynamicHeaderTimestamp: 1784282924
+  lastDynamicHeaderTimestamp: 1786797529
   websiteLatestMessage:
     text: <a href="https://cmonkey.co/freecourses">Check out all my FREE courses!
       Click here!</a>
-  websiteLatestMessageTimestamp: 1784282924
+  websiteLatestMessageTimestamp: 1786797529
   websiteLatestVideos:
     videos:
-    - youTubeId: IQlMciGDMTY
-      title: This method helps you find Game Ideas that make MILLIONS!
-    - youTubeId: zkKU7Vj5Syc
-      title: Do THIS to pick your next SUCCESSFUL game idea!
-    - youTubeId: NjNbIHHu9Z0
-      title: Steam Marketing EXPERT on how to find SUCCESS in 2026!
-    - youTubeId: ngQCio7raFY
-      title: Apparently Indie devs are NOT dead?
-  websiteLatestVideosTimestamp: 1784282924
+    - youTubeId: Hwpbh2fDPlE
+      title: The SECRET WEAPON making Unity 7 AWESOME - CoreCLR Explained
+    - youTubeId: xsQTCKSHte8
+      title: TOP 10 NEW Games, Made with Unity! (JULY 2026)
+    - youTubeId: 26F9uHlPEO0
+      title: WHY this game made $10,000,000!
+    - youTubeId: 2oHitHMNyNw
+      title: WHY Scope Creep DESTROYS Indie Games (and how to stop it)
+  websiteLatestVideosTimestamp: 1786797529

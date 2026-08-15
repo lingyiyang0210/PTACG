@@ -1,10 +1,14 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
+using Unity.Netcode.Transports.UTP;
+using Unity.Networking.Transport.Relay;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Lobbies;
 using Unity.Services.Lobbies.Models;
+using Unity.Services.Relay;
+using Unity.Services.Relay.Models;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,18 +16,22 @@ public class KitchenGameLobby : MonoBehaviour
 {
     public static KitchenGameLobby Instance { get; private set; }
 
+    private const string KEY_RELAY_JOIN_CODE = "RelayJoinCode";
+
     public event EventHandler OnCreateLobbyStarted;
     public event EventHandler OnCreateLobbyFailed;
     public event EventHandler OnJoinStarted;
     public event EventHandler OnQuickJoinFailed;
     public event EventHandler OnJoinFailed;
     public event EventHandler<OnLobbyListChangedEventArgs> OnLobbyListChanged;
+
     public class OnLobbyListChangedEventArgs : EventArgs
     {
         public List<Lobby> lobbyList;
     }
 
     private Lobby joinedLobby;
+
     private float heartbeatTimer;
     private float listLobbiesTimer;
 
@@ -38,14 +46,30 @@ public class KitchenGameLobby : MonoBehaviour
 
     private async void InitializeUnityAuthentication()
     {
-        if (UnityServices.State != ServicesInitializationState.Initialized)
+        try
         {
-            InitializationOptions initializationOptions = new InitializationOptions();
-            //initializationOptions.SetProfile(UnityEngine.Random.Range(0, 10000).ToString());
+            if (UnityServices.State != ServicesInitializationState.Initialized)
+            {
+                InitializationOptions initializationOptions = new InitializationOptions();
 
-            await UnityServices.InitializeAsync(initializationOptions);
+                await UnityServices.InitializeAsync(initializationOptions);
+            }
 
-            await AuthenticationService.Instance.SignInAnonymouslyAsync();
+            if (!AuthenticationService.Instance.IsSignedIn)
+            {
+                await AuthenticationService.Instance.SignInAnonymouslyAsync();
+            }
+
+            Debug.Log(
+                "Unity Services initialized. Player ID: " +
+                AuthenticationService.Instance.PlayerId
+            );
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(
+                "Unity Services initialization failed: " + e
+            );
         }
     }
 
@@ -57,132 +81,329 @@ public class KitchenGameLobby : MonoBehaviour
 
     private void HandlePeriodicListLobbies()
     {
-        if (joinedLobby == null &&
+        if (
+            joinedLobby == null &&
             UnityServices.State == ServicesInitializationState.Initialized &&
             AuthenticationService.Instance.IsSignedIn &&
-            SceneManager.GetActiveScene().name == Loader.Scene.LobbyScene.ToString())
+            SceneManager.GetActiveScene().name ==
+            Loader.Scene.LobbyScene.ToString()
+        )
         {
-
             listLobbiesTimer -= Time.deltaTime;
+
             if (listLobbiesTimer <= 0f)
             {
                 float listLobbiesTimerMax = 3f;
+
                 listLobbiesTimer = listLobbiesTimerMax;
+
                 ListLobbies();
             }
         }
     }
-
 
     private void HandleHeartbeat()
     {
         if (IsLobbyHost())
         {
             heartbeatTimer -= Time.deltaTime;
+
             if (heartbeatTimer <= 0f)
             {
                 float heartbeatTimerMax = 15f;
+
                 heartbeatTimer = heartbeatTimerMax;
 
-                LobbyService.Instance.SendHeartbeatPingAsync(joinedLobby.Id);
+                LobbyService.Instance.SendHeartbeatPingAsync(
+                    joinedLobby.Id
+                );
             }
         }
     }
 
     private bool IsLobbyHost()
     {
-        return joinedLobby != null && joinedLobby.HostId == AuthenticationService.Instance.PlayerId;
+        return
+            joinedLobby != null &&
+            joinedLobby.HostId ==
+            AuthenticationService.Instance.PlayerId;
     }
 
     private async void ListLobbies()
     {
         try
         {
-            QueryLobbiesOptions queryLobbiesOptions = new QueryLobbiesOptions
-            {
-                Filters = new List<QueryFilter> {
-                  new QueryFilter(QueryFilter.FieldOptions.AvailableSlots, "0", QueryFilter.OpOptions.GT)
-             }
-            };
-            QueryResponse queryResponse = await LobbyService.Instance.QueryLobbiesAsync(queryLobbiesOptions);
+            QueryLobbiesOptions queryLobbiesOptions =
+                new QueryLobbiesOptions
+                {
+                    Filters = new List<QueryFilter>
+                    {
+                        new QueryFilter(
+                            QueryFilter.FieldOptions.AvailableSlots,
+                            "0",
+                            QueryFilter.OpOptions.GT
+                        )
+                    }
+                };
 
-            OnLobbyListChanged?.Invoke(this, new OnLobbyListChangedEventArgs
-            {
-                lobbyList = queryResponse.Results
-            });
+            QueryResponse queryResponse =
+                await LobbyService.Instance.QueryLobbiesAsync(
+                    queryLobbiesOptions
+                );
+
+            OnLobbyListChanged?.Invoke(
+                this,
+                new OnLobbyListChangedEventArgs
+                {
+                    lobbyList = queryResponse.Results
+                }
+            );
         }
         catch (LobbyServiceException e)
         {
-            Debug.Log(e);
+            Debug.LogError(e);
         }
     }
 
-    public async void CreateLobby(string lobbyName, bool isPrivate)
+    public async void CreateLobby(
+        string lobbyName,
+        bool isPrivate
+    )
     {
-        OnCreateLobbyStarted?.Invoke(this, EventArgs.Empty);
+        OnCreateLobbyStarted?.Invoke(
+            this,
+            EventArgs.Empty
+        );
+
         try
         {
-            joinedLobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, KitchenGameMultiplayer.MAX_PLAYER_AMOUNT, new CreateLobbyOptions
-            {
-                IsPrivate = isPrivate,
-            });
+            Debug.Log("Creating Relay allocation...");
+
+            Allocation allocation =
+                await RelayService.Instance.CreateAllocationAsync(
+                    KitchenGameMultiplayer.MAX_PLAYER_AMOUNT - 1
+                );
+
+            string relayJoinCode =
+                await RelayService.Instance.GetJoinCodeAsync(
+                    allocation.AllocationId
+                );
+
+            Debug.Log(
+                "Relay Join Code: " +
+                relayJoinCode
+            );
+
+            UnityTransport unityTransport =
+                NetworkManager.Singleton
+                .GetComponent<UnityTransport>();
+
+            unityTransport.SetRelayServerData(
+                new RelayServerData(
+                    allocation,
+                    "dtls"
+                )
+            );
+
+            joinedLobby =
+                await LobbyService.Instance.CreateLobbyAsync(
+                    lobbyName,
+                    KitchenGameMultiplayer.MAX_PLAYER_AMOUNT,
+                    new CreateLobbyOptions
+                    {
+                        IsPrivate = isPrivate,
+
+                        Data =
+                            new Dictionary<string, DataObject>
+                            {
+                                {
+                                    KEY_RELAY_JOIN_CODE,
+                                    new DataObject(
+                                        DataObject.VisibilityOptions.Member,
+                                        relayJoinCode
+                                    )
+                                }
+                            }
+                    }
+                );
+
+            Debug.Log(
+                "Lobby created: " +
+                joinedLobby.Name
+            );
 
             KitchenGameMultiplayer.Instance.StartHost();
-            Loader.LoadNetwork(Loader.Scene.CharacterSelectScene);
+
+            Loader.LoadNetwork(
+                Loader.Scene.CharacterSelectScene
+            );
         }
-        catch (LobbyServiceException e)
+        catch (Exception e)
         {
-            Debug.Log(e);
-            OnCreateLobbyFailed?.Invoke(this, EventArgs.Empty);
+            Debug.LogError(
+                "Create Lobby / Relay failed: " +
+                e
+            );
+
+            OnCreateLobbyFailed?.Invoke(
+                this,
+                EventArgs.Empty
+            );
         }
     }
 
     public async void QuickJoin()
     {
-        OnJoinStarted?.Invoke(this, EventArgs.Empty);
+        OnJoinStarted?.Invoke(
+            this,
+            EventArgs.Empty
+        );
+
         try
         {
-            joinedLobby = await LobbyService.Instance.QuickJoinLobbyAsync();
+            joinedLobby =
+                await LobbyService.Instance
+                .QuickJoinLobbyAsync();
+
+            await JoinRelayFromLobby();
 
             KitchenGameMultiplayer.Instance.StartClient();
         }
-        catch (LobbyServiceException e)
+        catch (Exception e)
         {
-            Debug.Log(e);
-            OnQuickJoinFailed?.Invoke(this, EventArgs.Empty);
+            Debug.LogError(
+                "Quick Join failed: " +
+                e
+            );
+
+            OnQuickJoinFailed?.Invoke(
+                this,
+                EventArgs.Empty
+            );
         }
     }
 
-    public async void JoinWithId(string lobbyId)
+    public async void JoinWithId(
+        string lobbyId
+    )
     {
-        OnJoinStarted?.Invoke(this, EventArgs.Empty);
+        OnJoinStarted?.Invoke(
+            this,
+            EventArgs.Empty
+        );
+
         try
         {
-            joinedLobby = await LobbyService.Instance.JoinLobbyByIdAsync(lobbyId);
+            joinedLobby =
+                await LobbyService.Instance
+                .JoinLobbyByIdAsync(
+                    lobbyId
+                );
+
+            await JoinRelayFromLobby();
 
             KitchenGameMultiplayer.Instance.StartClient();
         }
-        catch (LobbyServiceException e)
+        catch (Exception e)
         {
-            Debug.Log(e);
-            OnJoinFailed?.Invoke(this, EventArgs.Empty);
+            Debug.LogError(
+                "Join With ID failed: " +
+                e
+            );
+
+            OnJoinFailed?.Invoke(
+                this,
+                EventArgs.Empty
+            );
         }
     }
 
-    public async void JoinWithCode(string lobbyCode)
+    public async void JoinWithCode(
+        string lobbyCode
+    )
     {
-        OnJoinStarted?.Invoke(this, EventArgs.Empty);
+        OnJoinStarted?.Invoke(
+            this,
+            EventArgs.Empty
+        );
+
         try
         {
-            joinedLobby = await LobbyService.Instance.JoinLobbyByCodeAsync(lobbyCode);
+            joinedLobby =
+                await LobbyService.Instance
+                .JoinLobbyByCodeAsync(
+                    lobbyCode
+                );
+
+            await JoinRelayFromLobby();
 
             KitchenGameMultiplayer.Instance.StartClient();
         }
-        catch (LobbyServiceException e)
+        catch (Exception e)
         {
-            Debug.Log(e);
-            OnJoinFailed?.Invoke(this, EventArgs.Empty);
+            Debug.LogError(
+                "Join With Code failed: " +
+                e
+            );
+
+            OnJoinFailed?.Invoke(
+                this,
+                EventArgs.Empty
+            );
         }
+    }
+
+    private async System.Threading.Tasks.Task JoinRelayFromLobby()
+    {
+        if (joinedLobby == null)
+        {
+            throw new Exception(
+                "Joined Lobby is null."
+            );
+        }
+
+        if (
+            joinedLobby.Data == null ||
+            !joinedLobby.Data.ContainsKey(
+                KEY_RELAY_JOIN_CODE
+            )
+        )
+        {
+            throw new Exception(
+                "Relay Join Code was not found in Lobby Data."
+            );
+        }
+
+        string relayJoinCode =
+            joinedLobby.Data[
+                KEY_RELAY_JOIN_CODE
+            ].Value;
+
+        Debug.Log(
+            "Joining Relay with code: " +
+            relayJoinCode
+        );
+
+        JoinAllocation joinAllocation =
+            await RelayService.Instance
+                .JoinAllocationAsync(
+                    relayJoinCode
+                );
+
+        UnityTransport unityTransport =
+            NetworkManager.Singleton
+                .GetComponent<UnityTransport>();
+
+        unityTransport.SetRelayServerData(
+            new RelayServerData(
+                joinAllocation,
+                "dtls"
+            )
+        );
+
+        Debug.Log(
+            "Relay connection configured successfully."
+        );
     }
 
     public async void DeleteLobby()
@@ -191,13 +412,16 @@ public class KitchenGameLobby : MonoBehaviour
         {
             try
             {
-                await LobbyService.Instance.DeleteLobbyAsync(joinedLobby.Id);
+                await LobbyService.Instance
+                    .DeleteLobbyAsync(
+                        joinedLobby.Id
+                    );
 
                 joinedLobby = null;
             }
             catch (LobbyServiceException e)
             {
-                Debug.Log(e);
+                Debug.LogError(e);
             }
         }
     }
@@ -208,28 +432,38 @@ public class KitchenGameLobby : MonoBehaviour
         {
             try
             {
-                await LobbyService.Instance.RemovePlayerAsync(joinedLobby.Id, AuthenticationService.Instance.PlayerId);
+                await LobbyService.Instance
+                    .RemovePlayerAsync(
+                        joinedLobby.Id,
+                        AuthenticationService.Instance.PlayerId
+                    );
 
                 joinedLobby = null;
             }
             catch (LobbyServiceException e)
             {
-                Debug.Log(e);
+                Debug.LogError(e);
             }
         }
     }
 
-    public async void KickPlayer(string playerId)
+    public async void KickPlayer(
+        string playerId
+    )
     {
         if (IsLobbyHost())
         {
             try
             {
-                await LobbyService.Instance.RemovePlayerAsync(joinedLobby.Id, playerId);
+                await LobbyService.Instance
+                    .RemovePlayerAsync(
+                        joinedLobby.Id,
+                        playerId
+                    );
             }
             catch (LobbyServiceException e)
             {
-                Debug.Log(e);
+                Debug.LogError(e);
             }
         }
     }
