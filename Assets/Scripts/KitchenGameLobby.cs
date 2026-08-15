@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
-using Unity.Networking.Transport.Relay;
 using Unity.Services.Authentication;
 using Unity.Services.Core;
 using Unity.Services.Lobbies;
@@ -201,7 +200,7 @@ public class KitchenGameLobby : MonoBehaviour
             unityTransport.SetRelayServerData(
                 new RelayServerData(
                     allocation,
-                    "wss"
+                    "dtls"
                 )
             );
 
@@ -397,7 +396,7 @@ public class KitchenGameLobby : MonoBehaviour
         unityTransport.SetRelayServerData(
             new RelayServerData(
                 joinAllocation,
-                "wss"
+                "dtls"
             )
         );
 
