@@ -201,7 +201,7 @@ public class KitchenGameLobby : MonoBehaviour
             unityTransport.SetRelayServerData(
                 new RelayServerData(
                     allocation,
-                    "dtls"
+                    "udp"
                 )
             );
 
@@ -399,7 +399,7 @@ public class KitchenGameLobby : MonoBehaviour
         unityTransport.SetRelayServerData(
             new RelayServerData(
                 joinAllocation,
-                "dtls"
+                "udp"
             )
         );
 
