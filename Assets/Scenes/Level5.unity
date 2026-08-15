@@ -4390,10 +4390,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48708145cbbe8cb469d70501305811cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnPointList:
+  priority1SpawnPoints:
   - {fileID: 848600343}
   - {fileID: 1746502185}
+  priority2SpawnPoints:
   - {fileID: 1430591479}
+  priority3SpawnPoints:
   - {fileID: 1895716151}
 --- !u!4 &511219178
 Transform:

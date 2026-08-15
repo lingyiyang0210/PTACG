@@ -583,11 +583,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48708145cbbe8cb469d70501305811cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnPointList:
+  priority1SpawnPoints:
   - {fileID: 525050313}
   - {fileID: 833375456}
+  priority2SpawnPoints:
   - {fileID: 1152369593}
   - {fileID: 1576671039}
+  priority3SpawnPoints: []
 --- !u!1 &34105621
 GameObject:
   m_ObjectHideFlags: 0

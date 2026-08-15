@@ -5,30 +5,44 @@ public class LevelSpawnManager : MonoBehaviour
 {
     public static LevelSpawnManager Instance { get; private set; }
 
-    [SerializeField] private List<Transform> spawnPointList;
+    [Header("Spawn Points Priority Levels")]
+    [SerializeField] private List<Transform> priority1SpawnPoints;
+    [SerializeField] private List<Transform> priority2SpawnPoints;
+    [SerializeField] private List<Transform> priority3SpawnPoints;
+
+    private List<Transform> prioritySpawnList;
 
     private void Awake()
     {
         Instance = this;
 
-        for (int i = 0; i < spawnPointList.Count; i++)
+        prioritySpawnList = new List<Transform>();
+
+        if (priority1SpawnPoints != null)
         {
-            Transform temp = spawnPointList[i];
-            int randomIndex = Random.Range(i, spawnPointList.Count);
-            spawnPointList[i] = spawnPointList[randomIndex];
-            spawnPointList[randomIndex] = temp;
+            prioritySpawnList.AddRange(priority1SpawnPoints);
+        }
+
+        if (priority2SpawnPoints != null)
+        {
+            prioritySpawnList.AddRange(priority2SpawnPoints);
+        }
+
+        if (priority3SpawnPoints != null)
+        {
+            prioritySpawnList.AddRange(priority3SpawnPoints);
         }
     }
 
     public Transform GetSpawnPoint(int playerIndex)
     {
-        if (spawnPointList == null || spawnPointList.Count == 0)
+        if (prioritySpawnList == null || prioritySpawnList.Count == 0)
         {
             Debug.LogWarning("LevelSpawnManager has no spawn points assigned!");
             return transform;
         }
 
-        int index = playerIndex % spawnPointList.Count;
-        return spawnPointList[index];
+        int index = playerIndex % prioritySpawnList.Count;
+        return prioritySpawnList[index];
     }
 }
